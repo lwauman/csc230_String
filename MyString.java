@@ -5,14 +5,17 @@
  */
 
 public class MyString {
-    private char[] strChars;
-    private int currLength;
+    private char[] strChars;//holds chars of MyString object
+    private int currLength;//holds the length of strChars
     
+    //no arg constructor. Initializes strChars and currLength
     public MyString(){
         strChars = new char[0];
         currLength = strChars.length;
     }
     
+    //Constructor that accepts a string. Initializes strChars and populates it
+    //and initializes currLength
     public MyString(String str){
         strChars = new char[str.length()];
         currLength = str.length();
@@ -21,6 +24,8 @@ public class MyString {
         }
     }
     
+    //Constructor that accepts a MyString object. Initalizes and populates strChars
+    //and currLength such that this MyString is a copy of the parameter. 
     public MyString(MyString str){
         currLength = str.length();
         strChars = new char[currLength];
@@ -29,14 +34,18 @@ public class MyString {
         }
     }
     
+    //Returns the lenght of strChars
     public int length(){
         return strChars.length;
     }
     
+    //changes the length of CurrLength to the int that is passed. Generally used
+    //when concat is used.
     private void ensureCapacity(int length){
         currLength = length;  
     }
     
+    //returns a string representation of the MyString object
     public String toString(){
         String toString="";
         for(int i=0; i<strChars.length; i++){
@@ -45,6 +54,8 @@ public class MyString {
         return toString;
     }
     
+    //returns a new MyString object that is the combination of the two MyString
+    //objects
     public MyString concat(MyString str){
         String tempHolder ="";
         for(char x:strChars){
@@ -59,8 +70,10 @@ public class MyString {
         return this;
     }
     
+    //returns a new MyString object that is the combination of the MyString object
+    //and the string that was passed
     public MyString concat(String str){
-        String tempHolder ="";
+        String tempHolder =""; //holds the combination of 
         for(char x:strChars){
             tempHolder += String.valueOf(x);
         }
@@ -73,6 +86,8 @@ public class MyString {
         return this;
     }
     
+    //checks to see if the two MyString objects are the same. If so returns true
+    //if not returns false
     public boolean equals(MyString str){
         boolean equals=false;
         if(currLength != str.length())
@@ -88,51 +103,60 @@ public class MyString {
         return equals;
     }
     
+    /*
+    compares two MyString objects. If they are equal returns 0, if the calling
+    MyString object comes first alphabetically returns -1 and returns 1 if the
+    calling MyString object comes after the parameter.
+    */
     public int compareTo(MyString str){
-       int count=0;
-       
-       if(currLength < str.length()){
-           while(count<currLength){
-               if((int)strChars[count] < (int)str.get(count)){
-                   return -1;
-                   
+       int index=0; 
+       //checking length is needed to avoid out of bound errors
+       //this block is used when the parameter has more characters than the calling object
+       if(currLength < str.length()){ 
+           while(index<currLength){
+               if((int)strChars[index] < (int)str.get(index)){
+                   return -1; //this means that the calling object came before the parameter
                }
-               else if((int)strChars[count] > (int)str.get(count)){
-                   return 1;
+               else if((int)strChars[index] > (int)str.get(index)){
+                   return 1; //this means that the calling object came after the parameter
                }
                else
-                   count++;
+                   index++; //checks next index
            }
-           return -1;
+           //if it makes it to this point then it means that the calling object and the parameter 
+           //are the same for all of the calling object's characters but the parameter has more characters.
+           //for example: Lucas(calling object) and Lucas Auman(parameter)
+           return -1; //calling object comes before parameter
        }
-       
+       //this is the same as above except the calling object has more characters than the parameter
        else if(str.length() < currLength){
-           while(count<str.length()){
-               if((int)strChars[count] < (int)str.get(count)){
-                   return -1;
+           while(index<str.length()){
+               if((int)strChars[index] < (int)str.get(index)){
+                   return -1; 
                    
                }
-               else if((int)strChars[count] > (int)str.get(count)){
-                   return 1;
+               else if((int)strChars[index] > (int)str.get(index)){
+                   return 1; 
                }
                else
-                   count++;
+                   index++;
            }
            return 1;
        }
-       
+       //this block is used when the calling object and parameter have the same number of characters
        else{
-           while(count<currLength){
-               if((int)strChars[count] < (int)str.get(count)){
+           while(index<currLength){
+               if((int)strChars[index] < (int)str.get(index)){
                    return -1;
                    
                }
-               else if((int)strChars[count] > (int)str.get(count)){
+               else if((int)strChars[index] > (int)str.get(index)){
                    return 1;
                }
                else
-                   count++;
+                   index++;
            }
+           //if it gets to this point then the calling object and the parameter are the same
            return 0;
        }
     }
@@ -146,8 +170,11 @@ public class MyString {
             return strChars[index];
     }
     
+    //converts all nonuppercase characters to uppercase
     public MyString toUpper(){
         for(int i=0; i<strChars.length; i++){
+            //if the character value is between 97-122 (97 and 122 included)
+            //this block is used and it converts it to uppercase.
             if((int)strChars[i]>=97 && (int)strChars[i]<=122){
                 int temp = (int)strChars[i]-32; 
                 char temp2 = (char)temp;
@@ -157,8 +184,11 @@ public class MyString {
         return this;
     }
     
+    //converts all nonlowercase characters to lowercase
     public MyString toLower(){
         for(int i=0; i<strChars.length; i++){
+            //if the character value is between 65-90 (65 and 90 included)
+            //this block is used and it converts it to lowercase.
             if((int)strChars[i]>=65 && (int)strChars[i]<=90){
                 int temp = (int)strChars[i]+32; 
                 char temp2 = (char)temp;
@@ -168,33 +198,59 @@ public class MyString {
         return this;
     }
 
+    /*
+    When this method is called it checks to see if the calling MyString object
+    contains the parameter. To do this it first checks if the parameter is larger 
+    than the calling object becuase if that is true the calling object cannot contain 
+    the parameter. Next, it loops through both the calling object's character array 
+    and the parameter's character array. If two character are the same the count
+    variable is incremented. If at any point the count variable is equal to the parameter
+    length then a match was found and the initial index is returned. If two characters are
+    the same and the inner loop keeps checking and it turns out that it isn't a match 
+    the count variable is reset to 0 and the outer loop is incremented to check the 
+    next character. If no match is found -1 is returned. 
+    */
     public int indexOf(MyString str){
        int count=0;
        int index;
        int strLength = str.length();
        if(currLength < strLength){
+           //if this is true them the calling object cannot contain the parameter
            index=-1;
        }
        else{
+           //in the for loop below currLength-strLength+1 is needed to avoid
+           //out of bound errors because in the nested if loop the two iterating 
+           //variables are added togther
             for(int i=0; i<currLength-strLength+1; i++){
                 for(int j=0; j<strLength; j++){
+                    //the two iterating variables are added together to allow
+                    //checking the index of both without incrementing the outerloop
                     if(strChars[i+j] == str.get(j)){
                         count++;
                         if(count == strLength){
-                            return i; 
+                            return i; //match was found. i is the starting index
                         }
                     }
                     else{
+                        //if this block is used it means that two characters matched
+                        //but after continued looping didn't turn out to be the same
+                        //example: Welcome(calling object) and mystring(parameter)
+                        //would match at index 5 of calling object but at index 6 do not
                         count=0;
-                        break;
+                        break; //breaks out to outer loop
                     }
                 }
             }
-        index=-1;
+        index=-1; //if it makes it this point then no match was found
        }
        return index;
     }
     
+    //this method works the same as the method above with the one exception that
+    //if a match is found the number that is returned is the ending index of the 
+    //match. Meaning that if you are searching for mystring in Welcome to mystring
+    //18 is returned. 
     public int lastIndexOf(MyString str){
        int count=0;
        int index;
@@ -222,6 +278,11 @@ public class MyString {
        return index;
     }
     
+    /*
+    This method takes any int and uses it to create a new MyString object. 
+    First it calculates the new array size and populates it starting at 
+    the index provided. 
+    */
     public MyString substring(int start){
         int newLength = currLength - start;
         char[] temp = new char[newLength];
@@ -238,6 +299,10 @@ public class MyString {
         return this;
     }
     
+    /* 
+    This method accepts two ints. The first marks where in strChars the new 
+    MyString should start and the second marks where it should end. 
+    */
     public MyString substring(int start, int end){
         int newLength = end-start;
         char[] temp = new char[newLength];

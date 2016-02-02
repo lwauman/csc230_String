@@ -33,11 +33,8 @@ public class Program1 {
         
         myString3 = myString1.concat("gnirtSyM");
         System.out.println("Concated MyString: " + myString3.toString());
-        System.out.println("Substring: " + myString3.indexOf(new MyString("mystring")));
-        
-        MyString ms6 = new MyString("Lucas");
-        System.out.println(ms6.substring(1,4));
-        
+        System.out.println("Substring: " + myString3.indexOf(new MyString("mystring ")));
+
         System.out.println("Testing completed!");
     }
     
